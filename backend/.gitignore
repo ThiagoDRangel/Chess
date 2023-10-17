@@ -1,0 +1,18 @@
+# Ignore directories generated during the build
+bin/
+obj/
+
+# Ignore user-specific configuration files in Visual Studio
+*.user
+*.suo
+*.userosscache
+
+# Ignore the directory used by Visual Studio for configuration
+.vs/
+
+# Ignore project configuration files
+*.csproj.user
+*.pubxml
+
+# Ignore published directories
+publish/
