@@ -8,19 +8,12 @@ namespace chess_game
     {
         static void Main(string[] args) {
 
-            try { 
-                Board initialBoard = new Board(8, 8);
+            PositionChess positionChess = new PositionChess('c', 7);
 
-                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(0, 0));
-                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(1, 3));
-                initialBoard.setPieceBoard(new King(initialBoard, Color.black), new Position(0, 2));
+            Console.WriteLine(positionChess);
 
+            Console.WriteLine(positionChess.toPosition());
 
-                Screen.printBoard(initialBoard);
-            }
-            catch (BoardException error) {
-                Console.WriteLine(error.Message);
-            } 
             Console.ReadLine();
         }
     }
