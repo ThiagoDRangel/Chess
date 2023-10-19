@@ -1,7 +1,7 @@
 ﻿using System;
 using board;
 
-namespace Chess
+namespace chess_game
 {
     class Screen
     {

@@ -2,17 +2,17 @@
 {
     class Piece
     {
-        public Position position { get; set; }
+        public Position? position { get; set; }
         public Color color { get; protected set; }
         public int quantityMove { get; protected set; }
         public Board initialBoard { get; protected set; }
 
-        public Piece(Position position, Board initialBoard, Color color)
+        public Piece(Board initialBoard, Color color)
         {
-            this.position = position;
+            this.position = null;
+            this.initialBoard = initialBoard;
             this.color = color;
             this.quantityMove = 0;
-            this.initialBoard = initialBoard;
         }
     }
 }

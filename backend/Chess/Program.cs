@@ -1,16 +1,26 @@
 ﻿using System;
 using board;
-using Chess;
+using chess;
 
-namespace chess
+namespace chess_game
 {
     class Program
     {
         static void Main(string[] args) {
 
-            Board initialBoard = new Board(8, 8);
+            try { 
+                Board initialBoard = new Board(8, 8);
 
-            Screen.printBoard(initialBoard);
+                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(0, 0));
+                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(1, 3));
+                initialBoard.setPieceBoard(new King(initialBoard, Color.black), new Position(0, 2));
+
+
+                Screen.printBoard(initialBoard);
+            }
+            catch (BoardException error) {
+                Console.WriteLine(error.Message);
+            } 
             Console.ReadLine();
         }
     }
