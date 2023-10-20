@@ -31,7 +31,17 @@
             piece.position = position;
         }
 
-        public bool checkPosition(Position position) {
+        public Piece removePiece(Position position) {
+            if (piece(position) == null) {
+                return null;
+            }
+            Piece capturePiece = piece(position);
+            capturePiece = null;
+            pieces[position.line, position.column] = null;
+            return capturePiece;
+        }
+
+        public bool isValidPosition(Position position) {
             if (position.line < 0 || position.column < 0 || position.line >= line || position.column >= column) {
                 return false;
             }
@@ -39,7 +49,7 @@
         }
 
         public void validetedPosition(Position position) {
-            if (!checkPosition(position)) {
+            if (!isValidPosition(position)) {
                 throw new BoardException("This position piece is invalid!");
             }
         }

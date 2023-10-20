@@ -1,8 +1,8 @@
 ﻿namespace board
 {
-    class Piece
+    abstract class Piece
     {
-        public Position? position { get; set; }
+        public Position position { get; set; }
         public Color color { get; protected set; }
         public int quantityMove { get; protected set; }
         public Board initialBoard { get; protected set; }
@@ -14,5 +14,11 @@
             this.color = color;
             this.quantityMove = 0;
         }
+
+        public void incrementQuantityMove() { 
+            quantityMove++;
+        }
+
+        public abstract bool[,] movesPieceInBoard();
     }
 }

@@ -9,16 +9,29 @@ namespace chess_game
         static void Main(string[] args) {
 
             try { 
-                Board initialBoard = new Board(8, 8);
+                StartGame match = new StartGame();
 
-                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(0, 0));
-                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(1, 3));
-                initialBoard.setPieceBoard(new King(initialBoard, Color.black), new Position(0, 2));
+                while (!match.gameFinished) {
 
-                initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new Position(3, 5));
+                    Console.Clear();
+                    Screen.printBoard(match.initialBoard);
 
+                    Console.WriteLine();
+                    Console.WriteLine("Piece movie: ");
+                    Position moveOrigin = Screen.readPositionChess().toPosition();
 
-                Screen.printBoard(initialBoard);
+                    bool[,] allMoves = match.initialBoard.piece(moveOrigin).movesPieceInBoard();
+
+                    Console.Clear();
+                    Screen.printBoard(match.initialBoard, allMoves);
+
+                    Console.WriteLine();
+                    Console.WriteLine("Piece destination: ");
+                    Position moveDestination = Screen.readPositionChess().toPosition();
+
+                    match.makeMovie(moveOrigin, moveDestination);
+                }
+
             }
             catch (BoardException error) {
                 Console.WriteLine(error.Message);
