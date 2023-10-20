@@ -5,8 +5,8 @@ namespace chess
 {
     class StartGame {
         public Board initialBoard { get; private set; }
-        private int turn;
-        private Color player;
+        public int turn {  get; private set; }
+        public Color player {  get; private set; }
         public bool gameFinished {  get; private set; }
 
         public StartGame() {
@@ -22,6 +22,21 @@ namespace chess
             piece.incrementQuantityMove();
             Piece capturedPiece = initialBoard.removePiece(destination);
             initialBoard.setPieceBoard(piece, destination);
+        }
+
+        public void gamePlay(Position origin, Position destination) { 
+            makeMovie(origin, destination);
+            turn++;
+            changePlayer();
+        }
+
+        private void changePlayer() { 
+            if (player == Color.white) {
+                player = Color.black;
+            }
+            else {
+                player = Color.white;
+            }
         }
 
         private void setPieces() {

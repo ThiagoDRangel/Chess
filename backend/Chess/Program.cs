@@ -15,9 +15,12 @@ namespace chess_game
 
                     Console.Clear();
                     Screen.printBoard(match.initialBoard);
+                    Console.WriteLine();
+                    Console.WriteLine("Turns: " + match.turn);
+                    Console.WriteLine("Wait move Player " + match.player);
 
                     Console.WriteLine();
-                    Console.WriteLine("Piece movie: ");
+                    Console.Write("Piece movie: ");
                     Position moveOrigin = Screen.readPositionChess().toPosition();
 
                     bool[,] allMoves = match.initialBoard.piece(moveOrigin).movesPieceInBoard();
@@ -26,7 +29,7 @@ namespace chess_game
                     Screen.printBoard(match.initialBoard, allMoves);
 
                     Console.WriteLine();
-                    Console.WriteLine("Piece destination: ");
+                    Console.Write("Piece destination: ");
                     Position moveDestination = Screen.readPositionChess().toPosition();
 
                     match.makeMovie(moveOrigin, moveDestination);

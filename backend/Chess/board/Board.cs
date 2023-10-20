@@ -36,7 +36,7 @@
                 return null;
             }
             Piece capturePiece = piece(position);
-            capturePiece = null;
+            capturePiece.position = null;
             pieces[position.line, position.column] = null;
             return capturePiece;
         }
