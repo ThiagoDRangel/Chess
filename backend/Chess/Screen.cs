@@ -1,10 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 using board;
 using chess;
 
 namespace chess_game
 {
     class Screen {
+
+        public static void createdNewGame(StartGame game) {
+            printBoard(game.initialBoard);
+            Console.WriteLine();
+            printCapturedPieces(game);
+            Console.WriteLine();
+            Console.WriteLine("Turns: " + game.turn);
+            Console.WriteLine("Wait move: " + game.player);
+        }
+
+        public static void printCapturedPieces(StartGame game) {
+            Console.WriteLine("Captured pieces:");
+            Console.Write("White pieces: ");
+            printPiecesToColor(game.capturetedPiecesToColor(Color.white));
+            Console.WriteLine();
+            Console.Write("Black pieces: ");
+            ConsoleColor defaultConsole = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            printPiecesToColor(game.capturetedPiecesToColor(Color.black));
+            Console.ForegroundColor = defaultConsole;
+            Console.WriteLine();
+        }
+
+        public static void printPiecesToColor(HashSet<Piece> bundle) {
+            Console.Write("[");
+            foreach (Piece x in bundle) { 
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
         public static void printBoard(Board initialBoard) {
             for (int i = 0; i < initialBoard.line; i++) {
                 Console.Write(8 - i + " ");
@@ -18,7 +49,7 @@ namespace chess_game
 
         public static void printBoard(Board initialBoard, bool[,] allMoves) {
 
-            ConsoleColor background = Console.BackgroundColor;
+            ConsoleColor defaultBackground = Console.BackgroundColor;
             ConsoleColor backgroundMove = ConsoleColor.DarkGray;
 
             for (int i = 0; i < initialBoard.line; i++) {
@@ -28,15 +59,15 @@ namespace chess_game
                         Console.BackgroundColor = backgroundMove;
                     }
                     else {
-                        Console.BackgroundColor = background;
+                        Console.BackgroundColor = defaultBackground;
                     }
                     printPiece(initialBoard.piece(i, j));
-                    Console.BackgroundColor = background;
+                    Console.BackgroundColor = defaultBackground;
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
-            Console.BackgroundColor = background;
+            Console.BackgroundColor = defaultBackground;
         }
 
         public static PositionChess readPositionChess() {

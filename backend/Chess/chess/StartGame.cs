@@ -9,11 +9,16 @@ namespace chess
         public Color player {  get; private set; }
         public bool gameFinished {  get; private set; }
 
+        private HashSet<Piece> playingPieces;
+
+        private HashSet<Piece> capturetedPieces;
         public StartGame() {
             initialBoard = new Board(8, 8);
             turn = 1;
             player = Color.white;
             gameFinished = false;
+            playingPieces = new HashSet<Piece>();
+            capturetedPieces = new HashSet<Piece>();
             setPieces();
         }
 
@@ -22,12 +27,33 @@ namespace chess
             piece.incrementQuantityMove();
             Piece capturedPiece = initialBoard.removePiece(destination);
             initialBoard.setPieceBoard(piece, destination);
+            if (capturedPiece != null ) { 
+                capturetedPieces.Add(capturedPiece);
+            }
         }
 
-        public void gamePlay(Position origin, Position destination) { 
+        public void gamePlay(Position origin, Position destination) {
             makeMovie(origin, destination);
             turn++;
             changePlayer();
+        }
+
+        public void validOriginPosition(Position position) { 
+            if (initialBoard.piece(position) == null) {
+                throw new BoardException("Piece not found in this position");
+            }
+            if (player != initialBoard.piece(position).color) {
+                throw new BoardException("Oponent piece, try again!");
+            }
+            if (!initialBoard.piece(position).searchPossibleMoves()) {
+                throw new BoardException("Piece do not move");
+            }
+        }
+
+        public void validatePositionToDestiny(Position origin, Position destination) { 
+            if (!initialBoard.piece(origin).canMoveFrom(destination)) {
+                throw new BoardException("Destination position is invalid!");
+            }
         }
 
         private void changePlayer() { 
@@ -39,14 +65,40 @@ namespace chess
             }
         }
 
-        private void setPieces() {
-            initialBoard.setPieceBoard(new Tower(initialBoard, Color.white), new PositionChess('a',1).toPosition());
-            initialBoard.setPieceBoard(new Tower(initialBoard, Color.white), new PositionChess('h',1).toPosition());
-            initialBoard.setPieceBoard(new King(initialBoard, Color.white), new PositionChess('e', 1).toPosition());
+        public HashSet<Piece> capturetedPiecesToColor(Color color) { 
+            HashSet<Piece> result = new HashSet<Piece>();
+            foreach (Piece x in capturetedPieces) { 
+                if (x.color == color) { 
+                    result.Add(x);
+                }
+            }
+            return result;
+        }
 
-            initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new PositionChess('a', 8).toPosition());
-            initialBoard.setPieceBoard(new Tower(initialBoard, Color.black), new PositionChess('h', 8).toPosition());
-            initialBoard.setPieceBoard(new King(initialBoard, Color.black), new PositionChess('e', 8).toPosition());
+        public HashSet<Piece> piecesInGame(Color color) { 
+            HashSet<Piece> pieces = new HashSet<Piece>();
+            foreach (Piece x in playingPieces) { 
+                if (x.color == color) { 
+                    pieces.Add(x);
+                }
+            }
+            pieces.ExceptWith(capturetedPiecesToColor(color));
+            return pieces;
+        }
+
+        public void setNewPiece(char column, int line, Piece piece) { 
+            initialBoard.setPieceBoard(piece, new PositionChess(column, line).toPosition());
+            playingPieces.Add(piece);
+        }
+
+        private void setPieces() {
+            setNewPiece('a', 1, new Tower(initialBoard, Color.white));
+            setNewPiece('h', 1, new Tower(initialBoard, Color.white));
+            setNewPiece('e', 1, new King(initialBoard, Color.white));
+
+            setNewPiece('a', 8, new Tower(initialBoard, Color.black));
+            setNewPiece('h', 8, new Tower(initialBoard, Color.black));
+            setNewPiece('e', 8, new King(initialBoard, Color.black));
         }
     }
 }

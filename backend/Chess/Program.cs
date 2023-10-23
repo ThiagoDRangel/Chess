@@ -13,26 +13,33 @@ namespace chess_game
 
                 while (!match.gameFinished) {
 
-                    Console.Clear();
-                    Screen.printBoard(match.initialBoard);
-                    Console.WriteLine();
-                    Console.WriteLine("Turns: " + match.turn);
-                    Console.WriteLine("Wait move Player " + match.player);
+                    try { 
 
-                    Console.WriteLine();
-                    Console.Write("Piece movie: ");
-                    Position moveOrigin = Screen.readPositionChess().toPosition();
+                        Console.Clear();
+                        Screen.createdNewGame(match);
 
-                    bool[,] allMoves = match.initialBoard.piece(moveOrigin).movesPieceInBoard();
+                        Console.WriteLine();
+                        Console.Write("Piece movie: ");
+                        Position moveOrigin = Screen.readPositionChess().toPosition();
 
-                    Console.Clear();
-                    Screen.printBoard(match.initialBoard, allMoves);
+                        match.validOriginPosition(moveOrigin);
 
-                    Console.WriteLine();
-                    Console.Write("Piece destination: ");
-                    Position moveDestination = Screen.readPositionChess().toPosition();
+                        bool[,] allMoves = match.initialBoard.piece(moveOrigin).movesPieceInBoard();
 
-                    match.makeMovie(moveOrigin, moveDestination);
+                        Console.Clear();
+                        Screen.printBoard(match.initialBoard, allMoves);
+
+                        Console.WriteLine();
+                        Console.Write("Piece destination: ");
+                        Position moveDestination = Screen.readPositionChess().toPosition();
+                        match.validatePositionToDestiny(moveOrigin, moveDestination);
+
+                        match.gamePlay(moveOrigin, moveDestination);
+                    }
+                    catch (BoardException e) { 
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
 
             }

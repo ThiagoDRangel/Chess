@@ -42,7 +42,7 @@
         }
 
         public bool isValidPosition(Position position) {
-            if (position.line < 0 || position.column < 0 || position.line >= line || position.column >= column) {
+            if (position.line < 0 || position.line >= line || position.column < 0 || position.column >= column) {
                 return false;
             }
             return true;
